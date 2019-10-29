@@ -56,7 +56,7 @@ module Foo
 end
 ```
 
-Normally, without Invisible, we would have just made methods that were previously `private` become `public`. But Invisible checks the original visibility and ensures that when the module is included, methods which were originally private or protected stay that way.
+Normally, without Invisible, we would have just made methods that were previously `private` or `protected` become `public`. But Invisible checks the original visibility and ensures that when the module is included, methods which were originally private or protected stay that way.
 
 ```ruby
 class MyClass < Base
