@@ -60,12 +60,29 @@ maintain their original visibility.
 
 =end
   def append_features(base)
-    private_methods   = instance_methods.select { |m| base.private_method_defined? m }
-    protected_methods = instance_methods.select { |m| base.protected_method_defined? m }
+    sync_visibility(base) { super }
+  end
 
-    super
+  def prepend_features(base)
+    return super if synced
 
-    private_methods.each   { |method_name| base.class_eval { private method_name } }
-    protected_methods.each { |method_name| base.class_eval { protected method_name } }
+    sync_visibility(base, mod = dup)
+    mod.synced = true
+    base.prepend mod
+  end
+
+  protected
+  attr_accessor :synced
+
+  private
+
+  def sync_visibility(source, target = source)
+    private_methods   = instance_methods.select { |m| source.private_method_defined? m }
+    protected_methods = instance_methods.select { |m| source.protected_method_defined? m }
+
+    yield if block_given?
+
+    private_methods.each   { |method_name| target.class_eval { private method_name } }
+    protected_methods.each { |method_name| target.class_eval { protected method_name } }
   end
 end
