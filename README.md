@@ -6,11 +6,13 @@
 [gem]: https://rubygems.org/gems/invisible
 [travis]: https://travis-ci.com/shioyama/invisible
 
-Invisible allows you to quickly define method overrides in a module without worrying about messing up their original visibility. It does this in less than ten lines of code.
+Public? Private? Protected? Who cares! I just want to monkey patch that shit!
+
+No fear: Invisible has got your back! This little ten-line gem does away with the problem of maintaining original method visibility, so you can get on with your monkey-patching mayhem.
 
 ## Usage
 
-Suppose you are defining a module which will override a bunch of methods from some class (or module). Simply `extend Invisible` and you can ignore checking whether those methods are public, protected or private -- Invisible will take care of that for you!
+Suppose you are defining a module which will override a bunch of methods from some class (or module). Simply `extend Invisible` and you can ignore checking whether those methods are public, protected or private -- Invisible will take care of that for you.
 
 Suppose this is the class we are overriding:
 
