@@ -1,5 +1,11 @@
 # Invisible
 
+[![Gem Version](https://badge.fury.io/rb/invisible.svg)][gem]
+[![Build Status](https://travis-ci.com/shioyama/invisible.svg?branch=master)][travis]
+
+[gem]: https://rubygems.org/gems/invisible
+[travis]: https://travis-ci.com/shioyama/invisible
+
 Invisible allows you to quickly define method overrides in a module without worrying about messing up their original visibility. It does this in less than ten lines of code.
 
 ## Usage
