@@ -77,6 +77,23 @@ instance.private_method                               # raises NoMethodError
 instance.send(:private_method)                        #=> 'privatefoo'
 ```
 
+Also works with `prepend`:
+
+```ruby
+class MyClass < Base
+   prepend Foo
+
+   private
+   def private_method
+     super + 'bar'
+   end
+end
+
+instance = MyClass.new
+instance.private_method         # raises NoMethodError
+instance.send(:private_method)  #=> 'privatebarfoo'
+```
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
