@@ -72,15 +72,15 @@ maintain their original visibility.
   end
 
   def prepend_features(base)
-    return super if synced
+    return super if invisible
 
     sync_visibility(base, mod = dup)
-    mod.synced = true
+    mod.invisible = true
     base.prepend mod
   end
 
   protected
-  attr_accessor :synced
+  attr_accessor :invisible
 
   private
 
