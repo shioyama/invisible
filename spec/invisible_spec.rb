@@ -88,6 +88,27 @@ describe Invisible do
 
         expect { base_class.prepend invisible_mod }.not_to change { base_class.ancestors.size }
       end
+
+      it 'prepends original module if visibility for all methods match prepending class' do
+        mod = Module.new do
+          protected
+
+          def protected_method
+            super + ' with bar'
+          end
+
+          private
+
+          def private_method
+            super + ' with bar'
+          end
+        end
+
+        base_class.prepend mod
+
+        expect { base_class.prepend mod }.not_to change { base_class.ancestors.size }
+        expect(base_class.ancestors.first).to eq(mod)
+      end
     end
   end
 end

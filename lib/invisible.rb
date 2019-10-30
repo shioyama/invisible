@@ -69,11 +69,17 @@ maintain their original visibility.
 
 =end
   def append_features(base)
-    sync_visibility(base) { super }
+    private_methods, protected_methods = methods_to_hide(base)
+
+    super
+
+    base.send(:private, *private_methods)
+    base.send(:protected, *protected_methods)
   end
 
   def prepend_features(base)
-    return super if invisible
+    private_methods, protected_methods = methods_to_hide(base)
+    return super if private_methods.empty? && protected_methods.empty?
 
     mod = dup
 
@@ -82,23 +88,15 @@ maintain their original visibility.
       base.const_set(mod_name, mod)
     end
 
-    sync_visibility(base, mod)
-    mod.invisible = true
+    mod.send(:private, *private_methods)
+    mod.send(:protected, *protected_methods)
     base.prepend mod
   end
 
-  protected
-  attr_accessor :invisible
-
   private
 
-  def sync_visibility(source, target = source)
-    private_methods   = instance_methods.select { |m| source.private_method_defined? m }
-    protected_methods = instance_methods.select { |m| source.protected_method_defined? m }
-
-    yield if block_given?
-
-    private_methods.each   { |method_name| target.class_eval { private method_name } }
-    protected_methods.each { |method_name| target.class_eval { protected method_name } }
+  def methods_to_hide(mod)
+    [(instance_methods - private_instance_methods)   & mod.private_instance_methods,
+     (instance_methods - protected_instance_methods) & mod.protected_instance_methods]
   end
 end
