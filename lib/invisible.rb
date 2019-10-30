@@ -76,6 +76,7 @@ maintain their original visibility.
 
     sync_visibility(base, mod = dup)
     mod.invisible = true
+    base.const_set("Invisible#{name}", mod) if base.name && name
     base.prepend mod
   end
 

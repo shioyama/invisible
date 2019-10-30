@@ -71,6 +71,15 @@ describe Invisible do
         expect { instance.private_method }.to raise_error(NoMethodError, /private method `private_method' called/)
         expect(instance.send(:private_method)).to eq('private with foo')
       end
+
+      it 'gives prepended module a name if both prepending class and module have names' do
+        stub_const('Foo', base_class)
+        stub_const('Bar', invisible_mod)
+
+        base_class.prepend invisible_mod
+
+        expect(base_class.ancestors.first.name).to eq('Foo::InvisibleBar')
+      end
     end
   end
 end
