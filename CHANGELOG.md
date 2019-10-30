@@ -2,6 +2,10 @@
 
 ## 0.2
 
+### 0.2.2
+
+* Give a name to prepended module. ([#4](https://github.com/shioyama/invisible/pull/4))
+
 ### 0.2.1
 
 * Change name of attribute accessor in prepended module to `invisible`.
