@@ -6,7 +6,7 @@ module Invisible
 Extend any module with +Invisible+ and any methods the module overrides will
 maintain their original visibility.
 
-@example
+@example With +include+
   class Base
     def public_method
       'public'
@@ -25,38 +25,46 @@ maintain their original visibility.
     end
   end
 
-  module Foo
+  module WithFoo
     extend Invisible
 
     def public_method
-      super + 'foo'
+      super + ' with foo'
     end
 
     def protected_method
-      super + 'foo'
+      super + ' with foo'
     end
 
     def private_method
-      super + 'foo'
+      super + ' with foo'
     end
   end
 
   class MyClass < Base
-    include Foo
+    include WithFoo
   end
 
   instance = MyClass.new
 
-  instance.public_method_defined?(:public_method)       #=> true
-  instance.public_method                                #=> 'publicfoo'
+  MyClass.public_method_defined?(:public_method)       #=> true
+  instance.public_method                               #=> 'publicfoo'
 
-  instance.protected_method_defined?(:protected_method) #=> true
-  instance.protected_method                             # raises NoMethodError
-  instance.send(:protected_method)                      #=> 'protectedfoo'
+  MyClass.protected_method_defined?(:protected_method) #=> true
+  instance.protected_method                            # raises NoMethodError
+  instance.send(:protected_method)                     #=> 'protectedfoo'
 
-  instance.private_method_defined?(:private_method)     #=> true
-  instance.private_method                               # raises NoMethodError
-  instance.send(:private_method)                        #=> 'privatefoo'
+  MyClass.private_method_defined?(:private_method)     #=> true
+  instance.private_method                              # raises NoMethodError
+  instance.send(:private_method)                       #=> 'privatefoo'
+
+@example With +prepend+
+  Base.prepend WithFoo
+
+  instance = Base.new
+
+  Base.private_method_defined?(:private_method)        # raises NoMethodError
+  instance.send(:private_method)                       #=> 'private with foo'
 
 =end
   def append_features(base)
