@@ -28,15 +28,15 @@ describe Invisible do
         extend Invisible
 
         def public_method
-          super + 'foo'
+          super + ' with foo'
         end
 
         def protected_method
-          super + 'foo'
+          super + ' with foo'
         end
 
         def private_method
-          super + 'foo'
+          super + ' with foo'
         end
       end
     end
@@ -48,46 +48,28 @@ describe Invisible do
 
         instance = my_class.new
 
-        expect(instance.public_method).to eq('publicfoo')
+        expect(instance.public_method).to eq('public with foo')
 
         expect { instance.protected_method }.to raise_error(NoMethodError, /protected method `protected_method' called/)
-        expect(instance.send(:protected_method)).to eq('protectedfoo')
+        expect(instance.send(:protected_method)).to eq('protected with foo')
 
         expect { instance.private_method }.to raise_error(NoMethodError, /private method `private_method' called/)
-        expect(instance.send(:private_method)).to eq('privatefoo')
+        expect(instance.send(:private_method)).to eq('private with foo')
       end
     end
 
     context 'prepending module' do
       it 'maintains original method visibility' do
-        my_class = Class.new(base_class) do
-          def public_method
-            super + 'bar'
-          end
+        expect { base_class.prepend invisible_mod }.not_to change(invisible_mod, :instance_methods)
+        instance = base_class.new
 
-          protected
-
-          def protected_method
-            super + 'bar'
-          end
-
-          private
-
-          def private_method
-            super + 'bar'
-          end
-        end
-
-        expect { my_class.prepend invisible_mod }.not_to change(invisible_mod, :instance_methods)
-        instance = my_class.new
-
-        expect(instance.public_method).to eq('publicbarfoo')
+        expect(instance.public_method).to eq('public with foo')
 
         expect { instance.protected_method }.to raise_error(NoMethodError, /protected method `protected_method' called/)
-        expect(instance.send(:protected_method)).to eq('protectedbarfoo')
+        expect(instance.send(:protected_method)).to eq('protected with foo')
 
         expect { instance.private_method }.to raise_error(NoMethodError, /private method `private_method' called/)
-        expect(instance.send(:private_method)).to eq('privatebarfoo')
+        expect(instance.send(:private_method)).to eq('private with foo')
       end
     end
   end
