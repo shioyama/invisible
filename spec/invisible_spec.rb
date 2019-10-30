@@ -38,6 +38,10 @@ describe Invisible do
         def private_method
           super + ' with foo'
         end
+
+        def other_method
+          'other with foo'
+        end
       end
     end
 
@@ -55,6 +59,8 @@ describe Invisible do
 
         expect { instance.private_method }.to raise_error(NoMethodError, /private method `private_method' called/)
         expect(instance.send(:private_method)).to eq('private with foo')
+
+        expect(instance.other_method).to eq('other with foo')
       end
     end
 
@@ -70,6 +76,8 @@ describe Invisible do
 
         expect { instance.private_method }.to raise_error(NoMethodError, /private method `private_method' called/)
         expect(instance.send(:private_method)).to eq('private with foo')
+
+        expect(instance.other_method).to eq('other with foo')
       end
 
       it 'gives prepended module a name if both prepending class and module have names' do
