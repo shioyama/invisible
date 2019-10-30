@@ -80,6 +80,14 @@ describe Invisible do
 
         expect(base_class.ancestors.first.name).to eq('Foo::InvisibleBar')
       end
+
+      it 'only prepends module once if mod has a name' do
+        stub_const('Bar', invisible_mod)
+
+        base_class.prepend invisible_mod
+
+        expect { base_class.prepend invisible_mod }.not_to change { base_class.ancestors.size }
+      end
     end
   end
 end

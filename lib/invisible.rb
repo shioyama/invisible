@@ -74,9 +74,15 @@ maintain their original visibility.
   def prepend_features(base)
     return super if invisible
 
-    sync_visibility(base, mod = dup)
+    mod = dup
+
+    if name
+      return if base.const_defined?(mod_name = "Invisible#{name}")
+      base.const_set(mod_name, mod)
+    end
+
+    sync_visibility(base, mod)
     mod.invisible = true
-    base.const_set("Invisible#{name}", mod) if base.name && name
     base.prepend mod
   end
 
