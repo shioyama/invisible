@@ -2,6 +2,11 @@
 
 ## 0.2
 
+### 0.2.4 (October 30, 2019)
+
+* Only dup module if prepending class has different visibility
+  ([#6](https://github.com/shioyama/invisible/pull/6))
+
 ### 0.2.3 (October 30, 2019)
 
 * Only prepend dup'ed module once if possible ([#5](https://github.com/shioyama/invisible/pull/5))
