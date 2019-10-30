@@ -2,6 +2,10 @@
 
 ## 0.2
 
+### 0.2.5 (October 30, 2019)
+
+* Handle namespaces when prepending ([#7](https://github.com/shioyama/invisible/pull/7))
+
 ### 0.2.4 (October 30, 2019)
 
 * Only dup module if prepending class has different visibility
