@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "invisible/version"
 
 module Invisible
@@ -84,7 +85,7 @@ maintain their original visibility.
     mod = dup
 
     if name
-      return if base.const_defined?(mod_name = "Invisible#{name}")
+      return if base.const_defined?(mod_name = ['Invisible', *name.split('::')].join('__'))
       base.const_set(mod_name, mod)
     end
 

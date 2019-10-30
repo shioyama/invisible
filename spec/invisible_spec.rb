@@ -86,7 +86,16 @@ describe Invisible do
 
         base_class.prepend invisible_mod
 
-        expect(base_class.ancestors.first.name).to eq('Foo::InvisibleBar')
+        expect(base_class.ancestors.first.name).to eq('Foo::Invisible__Bar')
+      end
+
+      it 'works with namespaced modules' do
+        stub_const('Foo', base_class)
+        stub_const('Bar::Baz', invisible_mod)
+
+        base_class.prepend invisible_mod
+
+        expect(base_class.ancestors.first.name).to eq('Foo::Invisible__Bar__Baz')
       end
 
       it 'only prepends module once if mod has a name' do
