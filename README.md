@@ -84,7 +84,8 @@ Base.prepend WithFoo
 
 instance = Base.new
 
-Base.private_method_defined?(:private_method)        # raises NoMethodError
+Base.private_method_defined?(:private_method)        # true
+instance.private_method                              # raises NoMethodError
 instance.send(:private_method)                       #=> 'private with foo'
 ```
 
