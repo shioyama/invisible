@@ -6,7 +6,7 @@
 [gem]: https://rubygems.org/gems/invisible
 [travis]: https://travis-ci.com/shioyama/invisible
 
-Public? Private? Protected? Who cares! I just want to monkey patch that shit!
+Public? Private? Protected? Who cares! I just wanna monkey patch that shit!
 
 No fear: Invisible has your back! This little ten-line gem does away with the problem of maintaining original method visibility, so you can get on with your monkey-patching mayhem.
 
@@ -39,19 +39,19 @@ end
 We don't want to care about whether the methods are private or whatever. So we define our module like so:
 
 ```ruby
-module Foo
+module WithFoo
   extend Invisible
 
   def public_method
-    super + 'foo'
+    super + ' with foo'
   end
 
   def protected_method
-    super + 'foo'
+    super + ' with foo'
   end
 
   def private_method
-    super + 'foo'
+    super + ' with foo'
   end
 end
 ```
@@ -60,38 +60,32 @@ Normally, without Invisible, we would have just made methods that were previousl
 
 ```ruby
 class MyClass < Base
-  include Foo
+  include WithFoo
 end
 
 instance = MyClass.new
 
-instance.public_method_defined?(:public_method)       #=> true
-instance.public_method                                #=> 'publicfoo'
+MyClass.public_method_defined?(:public_method)       #=> true
+instance.public_method                               #=> 'public with foo'
 
-instance.protected_method_defined?(:protected_method) #=> true
-instance.protected_method                             # raises NoMethodError
-instance.send(:protected_method)                      #=> 'protectedfoo'
+MyClass.protected_method_defined?(:protected_method) #=> true
+instance.protected_method                            # raises NoMethodError
+instance.send(:protected_method)                     #=> 'protected with foo'
 
-instance.private_method_defined?(:private_method)     #=> true
-instance.private_method                               # raises NoMethodError
-instance.send(:private_method)                        #=> 'privatefoo'
+MyClass.private_method_defined?(:private_method)     #=> true
+instance.private_method                              # raises NoMethodError
+instance.send(:private_method)                       #=> 'private with foo'
 ```
 
 Also works with `prepend`:
 
 ```ruby
-class MyClass < Base
-   prepend Foo
+Base.prepend WithFoo
 
-   private
-   def private_method
-     super + 'bar'
-   end
-end
+instance = Base.new
 
-instance = MyClass.new
-instance.private_method         # raises NoMethodError
-instance.send(:private_method)  #=> 'privatebarfoo'
+Base.private_method_defined?(:private_method)        # raises NoMethodError
+instance.send(:private_method)                       #=> 'private with foo'
 ```
 
 ## License
