@@ -8,7 +8,7 @@
 
 Public? Private? Protected? Who cares! I just wanna monkey patch that shit!
 
-No fear: Invisible has your back! This little gem does away with the problem of maintaining original method visibility, so you can get on with your monkey-patching mayhem. It does this with only a dozen lines of code.
+No fear: Invisible has your back! In a dozen lines of code, this little gem does away with the problem of maintaining original method visibility, so you can get on with your monkey-patching mayhem.
 
 ## Usage
 
